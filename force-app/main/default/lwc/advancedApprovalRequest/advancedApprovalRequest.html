@@ -1,0 +1,25 @@
+<template>
+    <div class="approval-card">
+        <template if:true={loading}>
+            <lightning-spinner alternative-text="Loading approval" size="small"></lightning-spinner>
+        </template>
+
+        <template if:true={approvalRequest}>
+            <div class="header">Approval Request</div>
+            <p>Status: <strong>{approvalRequest.Status__c}</strong></p>
+            <p>Request ID: <code>{approvalRequest.Id}</code></p>
+            <lightning-button label="Refresh" onclick={loadRequest}></lightning-button>
+        </template>
+
+        <template if:false={approvalRequest}>
+            <div class="empty-state">
+                <p>No active approval request found.</p>
+                <lightning-button label="Start Approval" variant="brand" onclick={handleStartApproval}></lightning-button>
+            </div>
+        </template>
+
+        <template if:true={error}>
+            <div class="error-message">{error}</div>
+        </template>
+    </div>
+</template>

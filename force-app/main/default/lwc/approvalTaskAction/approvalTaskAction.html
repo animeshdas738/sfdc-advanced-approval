@@ -1,0 +1,9 @@
+<template>
+    <div class="task-actions">
+        <lightning-button label="Approve" variant="brand" onclick={handleApprove} disabled={working}></lightning-button>
+        <lightning-button label="Reject" variant="destructive" onclick={handleReject} disabled={working}></lightning-button>
+        <template if:true={error}>
+            <div class="error">{error}</div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,20 @@
+.approval-card {
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background: #ffffff;
+}
+
+.header {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.empty-state {
+    margin-top: 0.75rem;
+}
+
+.error-message {
+    color: #c23934;
+    margin-top: 1rem;
+}

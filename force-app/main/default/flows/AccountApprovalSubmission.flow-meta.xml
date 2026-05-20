@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>Sample Record-Triggered Flow to submit an Account for advanced approval process</description>
+    <interviewLabel>Account Approval Submission</interviewLabel>
+    <label>Account Approval Submission</label>
+    <processType>RecordTriggered</processType>
+    <recordTriggerType>Create</recordTriggerType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DecisionRequireApproval</targetReference>
+        </connector>
+    </start>
+    <decisions>
+        <name>DecisionRequireApproval</name>
+        <label>Does Account Require Approval?</label>
+        <locationX>176</locationX>
+        <locationY>100</locationY>
+        <defaultConnectorLabel>No Approval Needed</defaultConnectorLabel>
+        <rules>
+            <name>RequiresApproval</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AnnualRevenue</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>1000000.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ActionSubmitForApproval</targetReference>
+            </connector>
+            <label>High Value Account</label>
+        </rules>
+    </decisions>
+    <actionCalls>
+        <description>Call the invocable SubmitForApprovalAction to submit the account for approval</description>
+        <name>ActionSubmitForApproval</name>
+        <label>Submit for Approval</label>
+        <locationX>302</locationX>
+        <locationY>100</locationY>
+        <actionName>SubmitForApprovalAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>FinalSuccess</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>requests</name>
+            <value>
+                <elementReference>ApprovalRequestList</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <screens>
+        <name>FinalSuccess</name>
+        <label>Approval Submitted</label>
+        <locationX>428</locationX>
+        <locationY>100</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+        <fields>
+            <name>SuccessMessage</name>
+            <fieldType>DisplayText</fieldType>
+            <value>
+                <stringValue>Account has been submitted for approval. An approval request has been created and routed to the appropriate approvers.</stringValue>
+            </value>
+        </fields>
+    </screens>
+    <variables>
+        <description>List to hold the approval request for the invocable action</description>
+        <name>ApprovalRequestList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>SubmitForApprovalAction.ApprovalRequest</objectType>
+    </variables>
+    <variables>
+        <description>The approval process ID</description>
+        <name>ApprovalProcessId</name>
+        <dataType>String</dataType>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>a065700000UAO1AAOL</stringValue>
+        </value>
+    </variables>
+</Flow>

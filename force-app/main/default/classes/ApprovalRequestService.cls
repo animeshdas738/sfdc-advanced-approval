@@ -31,6 +31,7 @@ public with sharing class ApprovalRequestService {
         return result;
     }
 
+    @AuraEnabled
     public static List<Approval_Request__c> getPendingRequests(List<Id> targetIds) {
         if (targetIds == null || targetIds.isEmpty()) {
             return new List<Approval_Request__c>();
