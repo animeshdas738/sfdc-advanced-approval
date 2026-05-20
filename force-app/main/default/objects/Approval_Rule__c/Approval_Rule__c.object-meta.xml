@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Defines eligibility and routing rules for approval assignment.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Approval_Mode__c</fullName>
+        <description>How multiple approvers are evaluated: All, Any, or Majority</description>
+        <externalId>false</externalId>
+        <label>Approval Mode</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>All must approve</fullName>
+                    <default>true</default>
+                    <label>All must approve</label>
+                </value>
+                <value>
+                    <fullName>Any can approve</fullName>
+                    <default>false</default>
+                    <label>Any can approve</label>
+                </value>
+                <value>
+                    <fullName>Majority</fullName>
+                    <default>false</default>
+                    <label>Majority</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Approver_Type__c</fullName>
+        <description>Type of approver: User, Role, Public Group</description>
+        <externalId>false</externalId>
+        <label>Approver Type</label>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>User</fullName>
+                    <default>false</default>
+                    <label>User</label>
+                </value>
+                <value>
+                    <fullName>Role</fullName>
+                    <default>false</default>
+                    <label>Role</label>
+                </value>
+                <value>
+                    <fullName>Public Group</fullName>
+                    <default>false</default>
+                    <label>Public Group</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Approver_Value__c</fullName>
+        <description>Value of the approver (User ID, Role name, or Group name)</description>
+        <externalId>false</externalId>
+        <label>Approver Value</label>
+        <length>255</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Condition_Formula__c</fullName>
+        <description>Formula or condition for rule evaluation</description>
+        <externalId>false</externalId>
+        <label>Condition Formula</label>
+        <length>4000</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Parallelity__c</fullName>
+        <description>Whether approvers work in parallel or sequentially</description>
+        <externalId>false</externalId>
+        <label>Parallelity</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Parallel</fullName>
+                    <default>true</default>
+                    <label>Parallel</label>
+                </value>
+                <value>
+                    <fullName>Sequential</fullName>
+                    <default>false</default>
+                    <label>Sequential</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Process__c</fullName>
+        <description>Reference to the approval process</description>
+        <externalId>false</externalId>
+        <label>Process</label>
+        <referenceTo>Approval_Process__c</referenceTo>
+        <relationshipLabel>Approval Rules</relationshipLabel>
+        <relationshipName>Approval_Rules</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Rule_Order__c</fullName>
+        <description>Execution order of the rule within the process</description>
+        <externalId>false</externalId>
+        <label>Rule Order</label>
+        <precision>3</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Alert_Approver__c</fullName>
+        <description>Secondary approver to alert if primary approver is unavailable</description>
+        <externalId>false</externalId>
+        <label>Alert Approver</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Approval_Rules_AlertApprover</relationshipName>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Days_to_Decision__c</fullName>
+        <description>Number of days allowed for this approval decision</description>
+        <externalId>false</externalId>
+        <label>Days to Decision</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Approval Rule</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Process__c</columns>
+        <columns>Rule_Order__c</columns>
+        <columns>Approver_Type__c</columns>
+        <columns>Parallelity__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Rule Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Approval Rules</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Master</fullName>
+        <active>true</active>
+        <label>Master</label>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
