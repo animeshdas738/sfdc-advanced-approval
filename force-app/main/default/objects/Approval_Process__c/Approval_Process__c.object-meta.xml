@@ -69,6 +69,25 @@
         <visibleLines>5</visibleLines>
     </fields>
     <fields>
+        <fullName>Trigger_Events__c</fullName>
+        <description>When to evaluate this process: on record create, update, or both</description>
+        <externalId>false</externalId>
+        <label>Trigger Events</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value><fullName>Create and Update</fullName><default>true</default><label>Create and Update</label></value>
+                <value><fullName>Create</fullName><default>false</default><label>Create Only</label></value>
+                <value><fullName>Update</fullName><default>false</default><label>Update Only</label></value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
         <fullName>Record_Type_Filter__c</fullName>
         <description>Record type to filter on (optional)</description>
         <externalId>false</externalId>

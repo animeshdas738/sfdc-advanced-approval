@@ -4,7 +4,7 @@
     <description>Sample Record-Triggered Flow to submit an Account for advanced approval process</description>
     <interviewLabel>Account Approval Submission</interviewLabel>
     <label>Account Approval Submission</label>
-    <processType>RecordTriggered</processType>
+    <processType>AutoLaunchedFlow</processType>
     <recordTriggerType>Create</recordTriggerType>
     <start>
         <locationX>50</locationX>
