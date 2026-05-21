@@ -141,6 +141,19 @@
         </valueSet>
     </fields>
     <fields>
+        <fullName>Stage_Number__c</fullName>
+        <description>The approval stage (Rule_Order__c) this task belongs to. Used to evaluate stages sequentially.</description>
+        <externalId>false</externalId>
+        <label>Stage Number</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Due_Date__c</fullName>
         <description>Date when this approval task is due</description>
         <externalId>false</externalId>

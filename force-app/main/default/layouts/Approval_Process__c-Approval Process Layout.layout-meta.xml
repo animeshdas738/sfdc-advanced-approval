@@ -79,23 +79,30 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
-        <fields>TASK.SUBJECT</fields>
-        <fields>TASK.WHO_NAME</fields>
-        <fields>ACTIVITY.TASK</fields>
-        <fields>TASK.DUE_DATE</fields>
-        <fields>TASK.STATUS</fields>
-        <fields>TASK.PRIORITY</fields>
-        <fields>CORE.USERS.FULL_NAME</fields>
-        <relatedList>RelatedActivityList</relatedList>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Field_API_Name__c</fields>
+        <fields>Field_Type__c</fields>
+        <fields>Operator__c</fields>
+        <fields>Value__c</fields>
+        <fields>Sort_Order__c</fields>
+        <fields>Logic_Group__c</fields>
+        <relatedList>Approval_Criteria__c.Process__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
-        <fields>TASK.SUBJECT</fields>
-        <fields>TASK.WHO_NAME</fields>
-        <fields>ACTIVITY.TASK</fields>
-        <fields>TASK.DUE_DATE</fields>
-        <fields>CORE.USERS.FULL_NAME</fields>
-        <fields>TASK.LAST_UPDATE</fields>
-        <relatedList>RelatedHistoryList</relatedList>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <fields>NAME</fields>
+        <fields>Rule_Order__c</fields>
+        <fields>Approver_Type__c</fields>
+        <fields>Approver_Value__c</fields>
+        <fields>Approval_Mode__c</fields>
+        <fields>Alert_Approver__c</fields>
+        <fields>Parallelity__c</fields>
+        <relatedList>Approval_Rule__c.Process__c</relatedList>
+        <sortField>Rule_Order__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
