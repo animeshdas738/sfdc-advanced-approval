@@ -70,10 +70,18 @@ public with sharing class ApprovalRouteResolver {
 
     private static List<Id> getUserIdsByGroup(String groupName) {
         List<Id> ids = new List<Id>();
-        for (CollaborationGroupMember m : [
-            SELECT MemberId FROM CollaborationGroupMember
-            WHERE  CollaborationGroup.Name = :groupName
-        ]) ids.add(m.MemberId);
+        // GroupMember.UserOrGroupId can be a User OR a nested Group.
+        // We include only direct User members here; nested groups are not expanded.
+        for (GroupMember m : [
+            SELECT UserOrGroupId
+            FROM   GroupMember
+            WHERE  Group.Name = :groupName
+            AND    Group.Type = 'Regular'
+        ]) {
+            if (m.UserOrGroupId.getSObjectType() == User.SObjectType) {
+                ids.add(m.UserOrGroupId);
+            }
+        }
         return ids;
     }
 }

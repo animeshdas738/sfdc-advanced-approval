@@ -1,25 +1,56 @@
 <template>
-    <div class="approval-card">
-        <template if:true={loading}>
-            <lightning-spinner alternative-text="Loading approval" size="small"></lightning-spinner>
-        </template>
+    <lightning-card title="Approval Status" icon-name="standard:approval">
+        <div class="slds-p-around_medium">
 
-        <template if:true={approvalRequest}>
-            <div class="header">Approval Request</div>
-            <p>Status: <strong>{approvalRequest.Status__c}</strong></p>
-            <p>Request ID: <code>{approvalRequest.Id}</code></p>
-            <lightning-button label="Refresh" onclick={loadRequest}></lightning-button>
-        </template>
+            <!-- Loading -->
+            <template lwc:if={loading}>
+                <div class="slds-align_absolute-center slds-p-around_medium">
+                    <lightning-spinner alternative-text="Loading approval status" size="small"></lightning-spinner>
+                </div>
+            </template>
 
-        <template if:false={approvalRequest}>
-            <div class="empty-state">
-                <p>No active approval request found.</p>
-                <lightning-button label="Start Approval" variant="brand" onclick={handleStartApproval}></lightning-button>
-            </div>
-        </template>
+            <!-- Error -->
+            <template lwc:elseif={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error"
+                                   variant="inverse" size="x-small"
+                                   class="slds-m-right_x-small">
+                    </lightning-icon>
+                    <span>{error}</span>
+                </div>
+            </template>
 
-        <template if:true={error}>
-            <div class="error-message">{error}</div>
-        </template>
-    </div>
+            <!-- Active approval request found -->
+            <template lwc:elseif={approvalRequest}>
+                <dl class="slds-dl_horizontal slds-m-bottom_small">
+                    <dt class="slds-dl_horizontal__label slds-text-color_weak">Status</dt>
+                    <dd class="slds-dl_horizontal__detail">
+                        <strong>{approvalRequest.Status__c}</strong>
+                    </dd>
+                    <dt class="slds-dl_horizontal__label slds-text-color_weak">Request ID</dt>
+                    <dd class="slds-dl_horizontal__detail">
+                        <code>{approvalRequest.Id}</code>
+                    </dd>
+                </dl>
+                <lightning-button label="Refresh" onclick={loadRequest}></lightning-button>
+            </template>
+
+            <!-- No active request -->
+            <template lwc:else>
+                <div class="slds-align_absolute-center slds-p-around_medium">
+                    <div class="slds-text-align_center">
+                        <p class="slds-text-color_weak slds-m-bottom_small">
+                            No active approval request found for this record.
+                        </p>
+                        <lightning-button
+                            label="Start Approval"
+                            variant="brand"
+                            onclick={handleStartApproval}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
 </template>

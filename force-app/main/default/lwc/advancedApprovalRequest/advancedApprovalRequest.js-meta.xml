@@ -2,14 +2,26 @@
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
     <isExposed>true</isExposed>
+    <masterLabel>Advanced Approval Request</masterLabel>
+    <description>Shows the approval status for the current record and allows initiating the approval process.</description>
     <targets>
         <target>lightning__RecordPage</target>
         <target>lightning__AppPage</target>
-        <target>lightning__HomePage</target>
     </targets>
     <targetConfigs>
+        <!-- recordId is automatically injected by the framework on Record Pages.
+             No property declaration needed — declaring it here blocks dragging. -->
         <targetConfig targets="lightning__RecordPage">
-            <property name="recordId" type="String" description="Record Id to attach the approval request to" />
+            <supportedFormFactors>
+                <supportedFormFactor type="Large"/>
+                <supportedFormFactor type="Small"/>
+            </supportedFormFactors>
+        </targetConfig>
+        <!-- On App Pages there is no automatic record context,
+             so let the admin supply a record Id manually. -->
+        <targetConfig targets="lightning__AppPage">
+            <property name="recordId" type="String" label="Record Id"
+                      description="Paste the Id of the record to show approval status for." />
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
