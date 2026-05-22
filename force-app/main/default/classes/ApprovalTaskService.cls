@@ -69,7 +69,7 @@ public with sharing class ApprovalTaskService {
         // Step 2 — find the current user's open task via the proper Id relationship
         Id reqId = reqs[0].Id;
         List<Approval_Task__c> tasks = [
-            SELECT Id, Task_Status__c, Stage_Number__c
+            SELECT Id, Task_Status__c, Stage_Number__c, Assignee__c, Assignee__r.Name
             FROM   Approval_Task__c
             WHERE  Approval_Request__c = :reqId
             AND    Assignee__c = :UserInfo.getUserId()

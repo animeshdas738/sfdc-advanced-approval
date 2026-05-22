@@ -42,6 +42,10 @@ export default class ApprovalTaskAction extends LightningElement {
         return this.ctx?.task?.Id;
     }
 
+    get assigneeName() {
+        return this.ctx?.task?.Assignee__r?.Name;
+    }
+
     handleApprove() {
         this._act(approveTask, 'Approved via Lightning action');
     }

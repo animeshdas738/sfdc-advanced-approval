@@ -6,6 +6,12 @@
 
     <!-- Approve / Reject buttons — visible whenever a request is pending -->
     <template lwc:elseif={requestExists}>
+        <template lwc:if={isAssignee}>
+            <p class="slds-text-body_small slds-m-bottom_small">
+                <span class="slds-text-color_weak">Assigned Approver: </span>
+                <strong>{assigneeName}</strong>
+            </p>
+        </template>
         <div class="slds-button-group">
             <lightning-button
                 label="Approve"
