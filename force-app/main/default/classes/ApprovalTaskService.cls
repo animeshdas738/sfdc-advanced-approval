@@ -43,12 +43,60 @@ public with sharing class ApprovalTaskService {
         );
     }
 
+    /**
+     * Returns context for the current user's approval task on the given record.
+     * Two-step lookup: request by Target_Record_Id__c (Text) first, then task by
+     * the request's Id (a proper relationship field). Avoids cross-object Text
+     * field filtering which is unreliable with Id bind variables in SOQL.
+     */
+    @AuraEnabled(cacheable=true)
+    public static TaskContext getMyTaskContext(Id recordId) {
+        TaskContext ctx = new TaskContext();
+        if (recordId == null) return ctx;
+
+        // Step 1 — find the pending request; explicit String cast matches the Text field
+        String recIdStr = String.valueOf(recordId);
+        List<Approval_Request__c> reqs = [
+            SELECT Id, Status__c, Current_Stage__c
+            FROM   Approval_Request__c
+            WHERE  Target_Record_Id__c = :recIdStr
+            AND    Status__c = 'Pending'
+            LIMIT 1
+        ];
+        if (reqs.isEmpty()) return ctx;
+        ctx.requestExists = true;
+
+        // Step 2 — find the current user's open task via the proper Id relationship
+        Id reqId = reqs[0].Id;
+        List<Approval_Task__c> tasks = [
+            SELECT Id, Task_Status__c, Stage_Number__c
+            FROM   Approval_Task__c
+            WHERE  Approval_Request__c = :reqId
+            AND    Assignee__c = :UserInfo.getUserId()
+            AND    Task_Status__c = 'Open'
+            LIMIT 1
+        ];
+        if (!tasks.isEmpty()) {
+            ctx.task = tasks[0];
+            ctx.isAssignee = true;
+        }
+        return ctx;
+    }
+
+    public class TaskContext {
+        @AuraEnabled public Boolean requestExists = false;
+        @AuraEnabled public Boolean isAssignee   = false;
+        @AuraEnabled public Approval_Task__c task;
+    }
+
     @AuraEnabled
     public static void approveTask(Id taskId, String comments) {
-        Approval_Task__c task = [
+        List<Approval_Task__c> tasks = [
             SELECT Id, Approval_Request__c, Task_Status__c
             FROM   Approval_Task__c WHERE Id = :taskId LIMIT 1
         ];
+        if (tasks.isEmpty()) throw new AuraHandledException('Approval task not found: ' + taskId);
+        Approval_Task__c task = tasks[0];
         task.Task_Status__c   = 'Approved';
         task.Decision__c      = 'Approved';
         task.Decision_Date__c = System.now();
@@ -61,10 +109,12 @@ public with sharing class ApprovalTaskService {
 
     @AuraEnabled
     public static void rejectTask(Id taskId, String comments) {
-        Approval_Task__c task = [
+        List<Approval_Task__c> tasks = [
             SELECT Id, Approval_Request__c, Task_Status__c
             FROM   Approval_Task__c WHERE Id = :taskId LIMIT 1
         ];
+        if (tasks.isEmpty()) throw new AuraHandledException('Approval task not found: ' + taskId);
+        Approval_Task__c task = tasks[0];
         task.Task_Status__c   = 'Rejected';
         task.Decision__c      = 'Rejected';
         task.Decision_Date__c = System.now();

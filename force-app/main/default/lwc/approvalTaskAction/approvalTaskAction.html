@@ -1,9 +1,31 @@
 <template>
-    <div class="task-actions">
-        <lightning-button label="Approve" variant="brand" onclick={handleApprove} disabled={working}></lightning-button>
-        <lightning-button label="Reject" variant="destructive" onclick={handleReject} disabled={working}></lightning-button>
-        <template if:true={error}>
-            <div class="error">{error}</div>
-        </template>
-    </div>
+    <!-- Loading -->
+    <template lwc:if={loading}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+
+    <!-- Approve / Reject buttons — visible whenever a request is pending -->
+    <template lwc:elseif={requestExists}>
+        <div class="slds-button-group">
+            <lightning-button
+                label="Approve"
+                variant="brand"
+                onclick={handleApprove}
+                disabled={working}>
+            </lightning-button>
+            <lightning-button
+                label="Reject"
+                variant="destructive"
+                onclick={handleReject}
+                disabled={working}>
+            </lightning-button>
+        </div>
+    </template>
+
+    <!-- No pending request -->
+    <template lwc:else>
+        <p class="slds-text-color_weak slds-text-body_small">
+            No active approval request found for this record.
+        </p>
+    </template>
 </template>

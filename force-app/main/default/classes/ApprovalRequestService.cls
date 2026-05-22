@@ -38,7 +38,8 @@ public with sharing class ApprovalRequestService {
         }
 
         return [
-            SELECT Id, Target_Record_Id__c, Status__c, Current_Stage__c, Process__c, Outcome__c
+            SELECT Id, Target_Record_Id__c, Status__c, Current_Stage__c, Process__c, Outcome__c,
+                   Process__r.Name, Process__r.Description__c
             FROM Approval_Request__c
             WHERE Target_Record_Id__c IN :targetIds
                 AND Status__c = 'Pending'

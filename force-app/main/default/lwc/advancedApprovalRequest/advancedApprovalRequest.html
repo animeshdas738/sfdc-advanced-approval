@@ -23,13 +23,17 @@
             <!-- Active approval request found -->
             <template lwc:elseif={approvalRequest}>
                 <dl class="slds-dl_horizontal slds-m-bottom_small">
+                    <dt class="slds-dl_horizontal__label slds-text-color_weak">Process</dt>
+                    <dd class="slds-dl_horizontal__detail">
+                        <strong>{approvalRequest.Process__r.Name}</strong>
+                    </dd>
+                    <dt class="slds-dl_horizontal__label slds-text-color_weak">Description</dt>
+                    <dd class="slds-dl_horizontal__detail">
+                        {approvalRequest.Process__r.Description__c}
+                    </dd>
                     <dt class="slds-dl_horizontal__label slds-text-color_weak">Status</dt>
                     <dd class="slds-dl_horizontal__detail">
                         <strong>{approvalRequest.Status__c}</strong>
-                    </dd>
-                    <dt class="slds-dl_horizontal__label slds-text-color_weak">Request ID</dt>
-                    <dd class="slds-dl_horizontal__detail">
-                        <code>{approvalRequest.Id}</code>
                     </dd>
                 </dl>
                 <lightning-button label="Refresh" onclick={loadRequest}></lightning-button>
